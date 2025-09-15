@@ -2,11 +2,10 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY = "registry.example.com"
-        IMAGE_NAME = "namespace/contoh-deployment"
-        IMAGE_TAG = "latest"
-        CREDENTIALS_ID = "docker-registry-creds"
-        KUBE_CONTEXT = "openshift-cluster"
+        NAMESPACE = "contoh"
+        APP_NAME = "contoh-deployment"
+        OCP_API = "https://api.cluster-qjwdn.dynamic.redhatworkshops.io:6443/"
+        OCP_CREDENTIALS = "sha256~t0XmeLHngR82JXrg9XdzktjzK3WiHg12uB_c9TOnoS0"
     }
 
     stages {
@@ -16,25 +15,33 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Login to OpenShift') {
             steps {
-                script {
-                    docker.withRegistry("https://${env.REGISTRY}", CREDENTIALS_ID) {
-                        def image = docker.build("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}")
-                        image.push()
-                    }
+                withCredentials([string(credentialsId: "${OCP_CREDENTIALS}", variable: 'OCP_TOKEN')]) {
+                    sh """
+                    oc login ${OCP_API} --token=${OCP_TOKEN} --insecure-skip-tls-verify=true
+                    oc project ${NAMESPACE}
+                    """
                 }
+            }
+        }
+
+        stage('Build in OpenShift') {
+            steps {
+                sh """
+                oc start-build ${APP_NAME} --from-dir=. --follow -n ${NAMESPACE}
+                """
             }
         }
 
         stage('Deploy with Helm') {
             steps {
-                script {
-                    sh "helm upgrade --install contoh-deployment ./helm-chart \
-                        --set image.repository=${REGISTRY}/${IMAGE_NAME} \
-                        --set image.tag=${IMAGE_TAG} \
-                        -n contoh --create-namespace"
-                }
+                sh """
+                helm upgrade --install ${APP_NAME} ./helm-chart \\
+                  --set image.repository=image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${APP_NAME} \\
+                  --set image.tag=latest \\
+                  -n ${NAMESPACE} --create-namespace
+                """
             }
         }
     }
