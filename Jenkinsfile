@@ -14,7 +14,6 @@ pipeline {
                     checkout scm
                 }
             }
-        }
 
         stage('Login to OpenShift') {
             steps {
