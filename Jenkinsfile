@@ -8,11 +8,10 @@ pipeline {
         OCP_CREDENTIALS = "sha256~t0XmeLHngR82JXrg9XdzktjzK3WiHg12uB_c9TOnoS0"
     }
 
-        stages {
-            stage('Checkout') {
-                steps {
-                    checkout scm
-                }
+ stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
             }
         }
 
@@ -21,8 +20,8 @@ pipeline {
                 withCredentials([string(credentialsId: "${OCP_CREDENTIALS}", variable: 'OCP_TOKEN')]) {
                     sh """
                     oc login ${OCP_API} \
-                    --token=${OCP_TOKEN} \
-                    --insecure-skip-tls-verify=true
+                      --token=${OCP_TOKEN} \
+                      --insecure-skip-tls-verify=true
                     oc project ${NAMESPACE}
                     """
                 }
