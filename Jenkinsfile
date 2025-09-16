@@ -54,5 +54,17 @@ pipeline {
                 """
             }
         }
+
+         stage('Deploy with Helm') {
+            steps {
+                sh """
+                export PATH=\$WORKSPACE/bin:\$PATH
+                helm upgrade --install ${APP_NAME} ./helm-chart \\
+                  --set image.repository=image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${APP_NAME} \\
+                  --set image.tag=latest \\
+                  -n ${NAMESPACE} --create-namespace
+                """
+            }
+        }
     }
 }
