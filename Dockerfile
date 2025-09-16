@@ -14,7 +14,9 @@ COPY --from=builder /app/server .
 COPY --from=builder /app/templates ./templates
 COPY --from=builder /app/static ./static
 
+USER root
+RUN chmod +x /app/server
 USER nonroot:nonroot
 
 EXPOSE 8080
-ENTRYPOINT ["./server"]
+ENTRYPOINT ["/app/server"]
