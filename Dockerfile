@@ -16,7 +16,7 @@ COPY --from=builder /app/static ./static
 
 USER root
 RUN chmod +x /app/server
-USER nonroot:nonroot
+USER user
 
 EXPOSE 8080
 ENTRYPOINT ["/app/server"]
