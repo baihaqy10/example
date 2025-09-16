@@ -17,12 +17,10 @@ pipeline {
 
         stage('Login to OpenShift') {
             steps {
-                withCredentials([string(credentialsId: "${OCP_CREDENTIALS}", variable: 'OCP_TOKEN')]) {
                     sh """
                     oc login ${OCP_API} --token=${OCP_TOKEN} --insecure-skip-tls-verify=true
                     oc project ${NAMESPACE}
                     """
-                }
             }
         }
 
