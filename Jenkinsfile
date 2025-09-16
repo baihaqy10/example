@@ -42,13 +42,13 @@ pipeline {
             }
         }
 
-        stage('Deploy with Helm') {
+        stage('Install Helm') {
             steps {
-                sh """
-                helm upgrade --install ${APP_NAME} ./helm-chart \\
-                  --set image.repository=image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${APP_NAME} \\
-                  --set image.tag=latest \\
-                  -n ${NAMESPACE} --create-namespace
+       s         sh """
+                curl -sSL https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz -o helm.tar.gz
+                tar -xzf helm.tar.gz
+                mv linux-amd64/helm /usr/local/bin/helm
+                helm version
                 """
             }
         }
