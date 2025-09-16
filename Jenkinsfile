@@ -4,11 +4,12 @@ pipeline {
     environment {
         NAMESPACE = "contoh"
         APP_NAME = "contoh-deployment"
-        OCP_API = "https://api.cluster-qjwdn.dynamic.redhatworkshops.io:6443/"
-        OCP_CREDENTIALS = "sha256~wPdVM5tZY1I80kbZNm2-FeAlmZk2OlGm8ANT0aMu01s"
+        OCP_API = "https://api.cluster-qjwdn.dynamic.redhatworkshops.io:6443"
+        OCP_CREDENTIALS = "sha256~wPdVM5tZY1I80kbZNm2-FeAlmZk2OlGm8ANT0aMu01s"  // sebaiknya pakai Jenkins Credentials, bukan hardcode
+        HELM_VERSION = "v3.15.4"
     }
 
- stages {
+    stages {
         stage('Checkout') {
             steps {
                 checkout scm
@@ -17,10 +18,10 @@ pipeline {
 
         stage('Login to OpenShift') {
             steps {
-                    sh """
-                    oc login ${OCP_API} --token=${OCP_CREDENTIALS} --insecure-skip-tls-verify=true
-                    oc project ${NAMESPACE}
-                    """
+                sh """
+                oc login ${OCP_API} --token=${OCP_CREDENTIALS} --insecure-skip-tls-verify=true
+                oc project ${NAMESPACE}
+                """
             }
         }
 
@@ -55,7 +56,7 @@ pipeline {
             }
         }
 
-         stage('Deploy with Helm') {
+        stage('Deploy with Helm') {
             steps {
                 sh """
                 export PATH=\$WORKSPACE/bin:\$PATH
