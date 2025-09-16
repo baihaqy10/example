@@ -67,5 +67,15 @@ pipeline {
                 """
             }
         }
+
+        stage('Deploy to OpenShift') {
+            steps {
+                script {
+                    sh """
+                    oc rollout restart deployment contoh-deployment -n contoh
+                    """
+                }
+            }
+        }
     }
 }
