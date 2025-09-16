@@ -5,7 +5,7 @@ pipeline {
         NAMESPACE = "contoh"
         APP_NAME = "contoh-deployment"
         OCP_API = "https://api.cluster-qjwdn.dynamic.redhatworkshops.io:6443/"
-        OCP_CREDENTIALS = "sha256~t0XmeLHngR82JXrg9XdzktjzK3WiHg12uB_c9TOnoS0"
+        OCP_CREDENTIALS = "sha256~wPdVM5tZY1I80kbZNm2-FeAlmZk2OlGm8ANT0aMu01s"
     }
 
  stages {
