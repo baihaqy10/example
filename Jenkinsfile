@@ -45,10 +45,12 @@ pipeline {
         stage('Install Helm') {
             steps {
                 sh """
-                curl -sSL https://get.helm.sh/helm-v3.15.4-linux-amd64.tar.gz -o helm.tar.gz
+                curl -sSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -o helm.tar.gz
                 tar -xzf helm.tar.gz
-                mv linux-amd64/helm /usr/local/bin/helm
-                helm version
+                mkdir -p \$WORKSPACE/bin
+                mv linux-amd64/helm \$WORKSPACE/bin/helm
+                export PATH=\$WORKSPACE/bin:\$PATH
+                \$WORKSPACE/bin/helm version
                 """
             }
         }
