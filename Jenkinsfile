@@ -18,7 +18,7 @@ pipeline {
         stage('Login to OpenShift') {
             steps {
                     sh """
-                    oc login ${OCP_API} --token=${OCP_TOKEN} --insecure-skip-tls-verify=true
+                    oc login ${OCP_API} --token=${OCP_CREDENTIALS} --insecure-skip-tls-verify=true
                     oc project ${NAMESPACE}
                     """
             }
