@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NAMESPACE = "contoh"
-        APP_NAME = "test-deploym"
+        NAMESPACE = "test-deploy"
+        APP_NAME = "contoh-app"
         OCP_API = "https://api.cluster-qdfkz.dynamic.redhatworkshops.io:6443"
         OCP_CREDENTIALS = "sha256~DVMmu7phS1PUWjMdcMnX_yzv2W2mr35F5-h94qRX_oQ"  // sebaiknya pakai Jenkins Credentials, bukan hardcode
         HELM_VERSION = "v3.15.4"
@@ -20,6 +20,7 @@ pipeline {
             steps {
                 sh """
                 oc login ${OCP_API} --token=${OCP_CREDENTIALS} --insecure-skip-tls-verify=true
+                oc new-project ${NAMESPACE} --description="Project for deploying contoh-app" || true
                 oc project ${NAMESPACE}
                 """
             }
