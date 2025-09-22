@@ -73,8 +73,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                    oc rollout restart deployment contoh-deployment -n ${NAMESPACE}
+                    oc rollout restart deployment ${APP_NAME} -n ${NAMESPACE}
                     """
+
                 }
             }
         }
