@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    oc rollout restart deployment contoh-deployment -n contoh
+                    oc rollout restart deployment contoh-deployment -n ${NAMESPACE}
                     """
                 }
             }
