@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.example.com/namespace/contoh-deployment
+  repository: image-registry.openshift-image-registry.svc:5000/test-deploy/contoh-app
   tag: latest
   pullPolicy: IfNotPresent
 
