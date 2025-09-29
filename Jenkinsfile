@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh """
                 oc login ${OCP_API} --token=${OCP_CREDENTIALS} --insecure-skip-tls-verify=true
-                oc new-project ${NAMESPACE} --description="Project for ${APP_NAME}"
+                #oc new-project ${NAMESPACE} --description="Project for ${APP_NAME}"
                 oc project ${NAMESPACE}
                 """
             }
