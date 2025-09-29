@@ -15,5 +15,6 @@ COPY --from=builder /app/server .
 COPY --from=builder /app/templates ./templates
 COPY --from=builder /app/static ./static
 
+USER user
 EXPOSE 8080
 ENTRYPOINT ["/app/server"]
