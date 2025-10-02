@@ -5,7 +5,7 @@ pipeline {
         NAMESPACE = "contoh-deployment"
         APP_NAME = "contoh-deployment"
         OCP_API = "https://api.cluster-djc54.dynamic.redhatworkshops.io:6443"
-        OCP_CREDENTIALS = "sha256~2hEskbEVKsj11g3X62B7bBUfcfznJd48juTHY0oNXvs"  // sebaiknya pakai Jenkins Credentials, bukan hardcode
+        OCP_CREDENTIALS = "xxxxxxxxxxx"  // sebaiknya pakai Jenkins Credentials, bukan hardcode
         HELM_VERSION = "v3.15.4"
     }
 
